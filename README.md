@@ -22,7 +22,7 @@ A universal Expo app for running daily standups. Records each team member's voic
 
 - [Expo](https://expo.dev) SDK 55 with Expo Router
 - [expo-audio](https://docs.expo.dev/versions/latest/sdk/audio/) for recording + metering
-- [Gemini API](https://ai.google.dev) (`gemini-2.0-flash-lite`) for transcription and summary
+- [Gemini API](https://ai.google.dev) (`gemini-3.1-flash-lite-preview`) for transcription and summary
 - [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) for animations
 - Syne + Nunito via `@expo-google-fonts`
 

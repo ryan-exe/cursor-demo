@@ -1,17 +1,20 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, Linking, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-const GITHUB_URL = 'https://github.com/ryan-exe/cursor-demo';
-const QR_URL = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&color=1A0005&bgcolor=FFFFFF&data=exp%3A%2F%2Fu.expo.dev%2Fcursor-demo&qzone=2';
+import {
+    ActivityIndicator, Image, Linking, Platform, SafeAreaView, ScrollView, StyleSheet, Text,
+    TouchableOpacity, View
+} from 'react-native';
 import Animated, {
-    FadeIn, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming,
+    FadeIn, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming
 } from 'react-native-reanimated';
 
 import SummaryView from '../components/SummaryView';
 import { Colors, Fonts, Radii, Spacing } from '../constants/theme';
 import { generateSummary, Transcript } from '../services/gemini';
 
+const GITHUB_URL = "https://github.com/ryan-exe/cursor-demo";
+const QR_URL =
+  "https://api.qrserver.com/v1/create-qr-code/?size=160x160&color=1A0005&bgcolor=FFFFFF&data=exp%3A%2F%2Fu.expo.dev%2Fcursor-demo&qzone=2";
 export default function SummaryScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ transcripts: string }>();
@@ -33,11 +36,23 @@ export default function SummaryScreen() {
   }, [params.transcripts]);
 
   useEffect(() => {
-    headerY.value = withDelay(60, withSpring(0, { damping: 20, stiffness: 200, mass: 0.8 }));
-    headerScale.value = withDelay(60, withSpring(1, { damping: 20, stiffness: 200, mass: 0.8 }));
+    headerY.value = withDelay(
+      60,
+      withSpring(0, { damping: 20, stiffness: 200, mass: 0.8 }),
+    );
+    headerScale.value = withDelay(
+      60,
+      withSpring(1, { damping: 20, stiffness: 200, mass: 0.8 }),
+    );
     headerOpacity.value = withDelay(60, withTiming(1, { duration: 200 }));
-    cardY.value = withDelay(180, withSpring(0, { damping: 22, stiffness: 180, mass: 0.9 }));
-    cardScale.value = withDelay(180, withSpring(1, { damping: 22, stiffness: 180, mass: 0.9 }));
+    cardY.value = withDelay(
+      180,
+      withSpring(0, { damping: 22, stiffness: 180, mass: 0.9 }),
+    );
+    cardScale.value = withDelay(
+      180,
+      withSpring(1, { damping: 22, stiffness: 180, mass: 0.9 }),
+    );
     cardOpacity.value = withDelay(180, withTiming(1, { duration: 220 }));
 
     if (transcripts.length === 0) {
@@ -91,36 +106,8 @@ export default function SummaryScreen() {
         )}
       </Animated.View>
 
-      {/* Web-only banner */}
-      {Platform.OS === 'web' && (
-        <View style={styles.webBar}>
-          <TouchableOpacity
-            style={styles.webGithubBtn}
-            onPress={() => Linking.openURL(GITHUB_URL)}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.webGithubIcon}>{'{ }'}</Text>
-            <Text style={styles.webGithubText}>View on GitHub</Text>
-          </TouchableOpacity>
-
-          <View style={styles.webQrBlock}>
-            <Image
-              source={{ uri: QR_URL }}
-              style={styles.webQrImage}
-              resizeMode="contain"
-            />
-            <View style={styles.webQrLabel}>
-              <Text style={styles.webQrTitle}>Get the app</Text>
-              <Text style={styles.webQrSub}>Scan with Expo Go</Text>
-            </View>
-          </View>
-        </View>
-      )}
-
       {/* White card */}
-      <Animated.View
-        style={[styles.card, cardStyle]}
-      >
+      <Animated.View style={[styles.card, cardStyle]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
@@ -153,6 +140,33 @@ export default function SummaryScreen() {
           )}
         </ScrollView>
       </Animated.View>
+
+      {/* Web-only banner */}
+      {Platform.OS === "web" && (
+        <View style={styles.webBar}>
+          <View style={styles.webQrBlock}>
+            <Image
+              source={{ uri: QR_URL }}
+              style={styles.webQrImage}
+              resizeMode="contain"
+            />
+            <View style={styles.webQrLabel}>
+              <Text style={styles.webQrTitle}>Get the app</Text>
+              <Text style={styles.webQrSub}>Scan with Expo Go</Text>
+            </View>
+          </View>
+
+          <View style={styles.webGithubCenter}>
+            <TouchableOpacity
+              style={styles.webGithubBtn}
+              onPress={() => Linking.openURL(GITHUB_URL)}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.webGithubText}>View on GitHub</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -237,20 +251,25 @@ const styles = StyleSheet.create({
 
   // Web-only banner
   webBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
     marginHorizontal: Spacing.md,
+    marginTop: Spacing.md,
     marginBottom: Spacing.md,
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-    backgroundColor: 'rgba(0,0,0,0.18)',
-    borderRadius: Radii.lg,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: Spacing.sm,
+    backgroundColor: "rgba(0,0,0,0.18)",
+    borderRadius: Radii.xl,
     gap: Spacing.md,
   },
+  webGithubCenter: {
+    flex: 1,
+    alignItems: "center",
+  },
   webGithubBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: Spacing.sm,
     backgroundColor: Colors.white,
     paddingHorizontal: Spacing.lg,
@@ -267,8 +286,8 @@ const styles = StyleSheet.create({
     color: Colors.textDark,
   },
   webQrBlock: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: Spacing.md,
     backgroundColor: Colors.white,
     borderRadius: Radii.lg,

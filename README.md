@@ -2,6 +2,9 @@
 
 A universal Expo app for running daily standups. Records each team member's voice update, transcribes it with Gemini AI, and generates a summary ready to paste into Slack.
 
+<img width="1684" height="1062" alt="image" src="https://github.com/user-attachments/assets/6ebb7cc4-6a73-4056-9b9f-48749936a04b" />
+
+
 <p align="center">
   <img src="assets/screenshots/home.png" width="28%" />
   <img src="assets/screenshots/recording.png" width="28%" />

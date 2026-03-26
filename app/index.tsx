@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
 import {
-    KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput,
+    Image, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TextInput,
     TouchableOpacity, View
 } from 'react-native';
 import Animated, {
@@ -11,6 +11,9 @@ import Animated, {
 import PersonCard from '../components/PersonCard';
 import { Colors, Fonts, Radii, Shadow, Spacing } from '../constants/theme';
 import { useTeamStore } from '../store/teamStore';
+
+const GITHUB_URL = 'https://github.com/ryan-exe/cursor-demo';
+const QR_URL = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&color=1A0005&bgcolor=FFFFFF&data=exp%3A%2F%2Fu.expo.dev%2Fcursor-demo&qzone=2`;
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -51,6 +54,32 @@ export default function HomeScreen() {
           <Text style={styles.appName}>STANDUP</Text>
           <Text style={styles.tagline}>Who's on today?</Text>
         </View>
+
+        {/* Web-only top bar */}
+        {Platform.OS === 'web' && (
+          <View style={styles.webBar}>
+            <TouchableOpacity
+              style={styles.webGithubBtn}
+              onPress={() => Linking.openURL(GITHUB_URL)}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.webGithubIcon}>{'{ }'}</Text>
+              <Text style={styles.webGithubText}>View on GitHub</Text>
+            </TouchableOpacity>
+
+            <View style={styles.webQrBlock}>
+              <Image
+                source={{ uri: QR_URL }}
+                style={styles.webQrImage}
+                resizeMode="contain"
+              />
+              <View style={styles.webQrLabel}>
+                <Text style={styles.webQrTitle}>Get the app</Text>
+                <Text style={styles.webQrSub}>Scan with Expo Go</Text>
+              </View>
+            </View>
+          </View>
+        )}
 
         {/* White card */}
         <View style={styles.card}>
@@ -262,5 +291,64 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.white,
     letterSpacing: 0.3,
+  },
+
+  // Web-only banner
+  webBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: Spacing.md,
+    marginBottom: Spacing.md,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+    backgroundColor: 'rgba(0,0,0,0.18)',
+    borderRadius: Radii.lg,
+    gap: Spacing.md,
+  },
+  webGithubBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+    backgroundColor: Colors.white,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.sm + 2,
+    borderRadius: Radii.full,
+  },
+  webGithubIcon: {
+    fontSize: 16,
+    color: Colors.textDark,
+  },
+  webGithubText: {
+    fontFamily: Fonts.bold,
+    fontSize: 14,
+    color: Colors.textDark,
+  },
+  webQrBlock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.md,
+    backgroundColor: Colors.white,
+    borderRadius: Radii.lg,
+    padding: Spacing.sm,
+  },
+  webQrImage: {
+    width: 72,
+    height: 72,
+    borderRadius: Radii.sm,
+  },
+  webQrLabel: {
+    gap: 2,
+    paddingRight: Spacing.sm,
+  },
+  webQrTitle: {
+    fontFamily: Fonts.bold,
+    fontSize: 15,
+    color: Colors.textDark,
+  },
+  webQrSub: {
+    fontFamily: Fonts.regular,
+    fontSize: 12,
+    color: Colors.textLight,
   },
 });

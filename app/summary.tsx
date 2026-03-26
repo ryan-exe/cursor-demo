@@ -14,7 +14,7 @@ import { generateSummary, Transcript } from '../services/gemini';
 
 const GITHUB_URL = "https://github.com/ryan-exe/cursor-demo";
 const QR_URL =
-  "https://api.qrserver.com/v1/create-qr-code/?size=160x160&color=1A0005&bgcolor=FFFFFF&data=exp%3A%2F%2Fu.expo.dev%2Fcursor-demo&qzone=2";
+  "https://api.qrserver.com/v1/create-qr-code/?size=160x160&color=1A0005&bgcolor=FFFFFF&qzone=2&data=https%3A%2F%2Fexpo.dev%2Fpreview%2Fupdate%3Fmessage%3DInitial%2Bstandup%2Bapp%26updateRuntimeVersion%3D1.0.0%26createdAt%3D2026-03-26T08%253A23%253A01.353Z%26slug%3Dexp%26projectId%3D7ea662f5-5a35-4fe9-9ce9-1b3df46e62f5%26group%3D9c6bbd88-f32d-4154-8e37-401efa6d22c1";
 export default function SummaryScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ transcripts: string }>();
